@@ -1,4 +1,3 @@
-require('babel-polyfill');
 if (process.env.NODE_ENV === undefined) {
   process.env.NODE_ENV = 'development';
 }
@@ -42,39 +41,45 @@ const webpackMiddleware = require('koa-webpack-middleware');
 const devMiddleware = webpackMiddleware.devMiddleware;
 const hotMiddleware = webpackMiddleware.hotMiddleware;
 
-import webpackConfigClient from './build/webpack.config.client';
+import webpackConfigClient from '../build/webpack.config.client';
 const compiler = webpack(webpackConfigClient);
 
-
-/* ------------启动 Koa Server------------ */
-
 const Koa = require('koa');
-const app = new Koa();
+
 const logger = require('koa-logger');
 const serve = require('koa-static2');
 
 // 路由处理, api处理交给koa-router, 前端交给react-router处理
-const router = require('./server/router');
-// koa的中间件
-app.use(logger());
-// app.use(serve('./public'));
-app.use(router);
+const router = require('./router');
 
 
-app.use(devMiddleware(compiler, {
-	noInfo: false,
-	publicPath: webpackConfigClient.output.publicPath,
-}));
-app.use(hotMiddleware(compiler));
+/* ----------- koa app ------------ */
+export default async() => {
+  const app = new Koa();
+  // koa的中间件
+  app.use(logger());
+  // app.use(serve('./public'));
+  app.use(router);
+
+  // 开发环境准备 Apply Webpack HMR Middleware
+  app.use(devMiddleware(compiler, {
+  	noInfo: false,
+  	publicPath: webpackConfigClient.output.publicPath,
+  }));
+  app.use(hotMiddleware(compiler));
+
+  console.log('准备app');
+  return Promise.resolve(app);
+}
 
 // app.use( ctx => {
 // 	ctx.type = 'html'
 // 	ctx.body = fs.createReadStream( './server/template.html' );
 // } )
 
-app.listen(8080, () => {
-  console.log('Koa server: localhost:8080 is listening!')
-});
+// app.listen(8080, () => {
+//   console.log('Koa server: localhost:8080 is listening!')
+// });
 
 // 如果是dev环境下
 // webpackDevServer();

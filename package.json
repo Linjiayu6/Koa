@@ -4,8 +4,9 @@
   "description": "123123",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf ./public",
-    "start": "npm run clean && node ./worker.js"
+    "clean": "rimraf ./dist",
+    "compile": "babel-node ./build/compiler.js",
+    "start": "npm run clean && babel-node ./setup.js"
   },
   "author": "ljy",
   "license": "MIT",
@@ -35,6 +36,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
+    "axios": "^0.16.1",
     "babel-cli": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.23.0",

@@ -20,13 +20,10 @@ webpackConfigClient.name = 'client';
 webpackConfigClient.target = 'web';
 
 const configPath = {
-  entry: '../src/index.js',
   compiler_public_path: '/',
 };
 
 // 打包入口
-const srcEntry = [ configPath.entry ];
-
 /*
   react-hot-loader/patch
     React Hot Loader is a plugin for Webpack that

@@ -21,3 +21,18 @@ module.exports = async (ctx, next) => {
   // await require('./render')(ctx, next)
   console.log('react-router....');
 };
+
+
+// import axios from 'axios';
+// // 接口路由定义
+// export default async function (ctx) {
+//   return new Promise((resolve, reject) => {
+//     if (ctx.req.url == '/zen') {
+//       axios.get('https://api.github.com/zen').then(({data}) => {
+//         resolve({zen: { text: [{text: data}]} });
+//       })
+//     } else {
+//       resolve({});
+//     }
+//   })
+// }
