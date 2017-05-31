@@ -1,20 +1,23 @@
 const path = require('path')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const port = process.env.PORT || 3000
 
 module.exports = {
-  target: 'web',
   entry: {
     bundle: [
-      'react-hot-loader/patch',
+      // 'react-hot-loader/patch',
       './src/index.js',
-      `webpack-hot-middleware/client?path=http://localhost:${port}/__webpack_hmr`,
+      'webpack-hot-middleware/client?reload=1',
+      'webpack-dev-server/client?',
+      'webpack/hot/only-dev-server',
     ]
   },
   output: {
     path: path.resolve(__dirname, 'public'),
-    filename: '[name].[hash].bundle.js',
+    // filename: '[name].[hash].bundle.js',
+    filename: 'bundle.js',
     publicPath: '/',
   },
   module: {
@@ -25,17 +28,32 @@ module.exports = {
         exclude: [/node_modules/],
       },
       {
-        test: /\.less$/,
-        use: ['style-loader', 'css-loader', 'less-loader'],
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      minChunks: module => module.context && module.context.includes('node_modules'),
+    new HtmlWebpackPlugin({
+      template: 'server/template.html',
+      inject: true,
+      hash: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: false
+      },
+      chunks: [
+        'index', 'vendor', 'manifest'
+      ],
+      filename: 'template.html'
     }),
-    new webpack.NoEmitOnErrorsPlugin(),
+		new webpack.HotModuleReplacementPlugin(),
+		new webpack.NoEmitOnErrorsPlugin()
   ],
+  // plugins: [
+  //   new webpack.optimize.CommonsChunkPlugin({
+  //     name: 'common',
+  //     minChunks: module => module.context && module.context.includes('node_modules'),
+  //   }),
+  // ],
 }
