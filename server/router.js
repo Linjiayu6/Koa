@@ -1,6 +1,8 @@
 const Router = require('koa-router');
 const router = new Router();
 
+const serverRender = require('./serverRender');
+
 // api使用koa-router
 function api() {
   router.get('/api/biztone', function(ctx) {
@@ -14,14 +16,26 @@ function api() {
 
 // koa-router 和 react-router
 module.exports = async (ctx, next) => {
+  console.log('ctx.path', ctx.path);
   if (ctx.path.match(/^\/api/)) {
-    return await api()(ctx, next);
+    return await api()(ctx, next);   
   }
-  // others react-router to render
-  // await require('./render')(ctx, next)
-  console.log('react-router....');
+
+  return await reactComponent(ctx);
+
+  // router.get('/api/', async function(ctx) { ctx.body = 'biztone' });
+  // // others react-router to render
+  // // await require('./render')(ctx, next)
+  // router.get('/app/*', reactApp);
+  // // ctx.body = 'react-router...这里有react-router 处理';
+  // // await handleRender(ctx);
+  // return router.routes();
 };
 
+function reactComponent (ctx) {
+  // ctx.body = 'react-router';
+  serverRender(ctx);
+}
 
 // import axios from 'axios';
 // // 接口路由定义

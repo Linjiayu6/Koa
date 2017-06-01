@@ -47,7 +47,7 @@ webpackConfig.module.rules = [
     exclude: [/node_modules/],
   },
   {
-    test: /\.less$/,
+    test: /\.css$/,
     use: ['style-loader', 'css-loader', 'less-loader'],
   },
 ];

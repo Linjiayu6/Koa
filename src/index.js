@@ -1,26 +1,15 @@
-import React from 'react'
-import { AppContainer } from 'react-hot-loader'
-import { Provider } from 'react-redux'
-import ReactDOM from 'react-dom'
-import App from './Router'
-import store from './store'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 
+import store from './framework/store';
+import browserHistory from 'react-router/lib/browserHistory';
+import { syncHistoryWithStore } from 'react-router-redux';
 
-const render = () => {
-  const root = document.getElementById('root')
-  ReactDOM.render(
-    <Provider store={store}>
-      <AppContainer>
-        <App />
-      </AppContainer>
-    </Provider>,
-    root
-  )
-}
+// 将store和history, 在history里面绑定, Router可以使用
+const history = syncHistoryWithStore(browserHistory, store);
 
-
-if (module.hot) {
-  module.hot.accept('./Router', () => { render() })
-}
-
-document.addEventListener('DOMContentLoaded', render)
+const app = document.createElement('div');
+document.body.appendChild(app);
+ReactDOM.render(
+  <App store={store} history={history} />, app);

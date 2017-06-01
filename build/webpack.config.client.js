@@ -20,7 +20,7 @@ webpackConfigClient.name = 'client';
 webpackConfigClient.target = 'web';
 
 const configPath = {
-  compiler_public_path: '/',
+    compiler_public_path: '/',
 };
 
 // 打包入口
@@ -32,36 +32,36 @@ const configPath = {
 */
 
 webpackConfigClient.entry = {
-  bundle: [
-    'react-hot-loader/patch',
-    path.resolve(__dirname, '../src/index.js'),
-    `webpack-hot-middleware/client?path=${configPath.compiler_public_path}__webpack_hmr`,
-  ],
-  // http://foio.github.io/wepack-code-spliting/
-  // vendor: [
-  //   'babel-polyfill',
-  //   'history',
-  //   'react',
-  //   'react-redux',
-  //   'react-router',
-  //   'react-router-redux',
-  //   'redux'
-  // ],
+    bundle: [
+        'react-hot-loader/patch',
+        path.resolve(__dirname, '../src/index.js'),
+        `webpack-hot-middleware/client?path=${configPath.compiler_public_path}__webpack_hmr`,
+    ],
+    // http://foio.github.io/wepack-code-spliting/
+    // vendor: [
+    //   'babel-polyfill',
+    //   'history',
+    //   'react',
+    //   'react-redux',
+    //   'react-router',
+    //   'react-router-redux',
+    //   'redux'
+    // ],
 
 };
 
 // 输出
 webpackConfigClient.output = {
-  filename: `[name].[hash].js`,
-  publicPath: '/',
-  path: path.resolve(__dirname, '../dist/public'),
+    filename: `[name].[hash].js`,
+    publicPath: '/',
+    path: path.resolve(__dirname, '../dist/public'),
 }
 
 // 在dev环境下
 debug('Enable plugins for live development (HMR, NoErrors).')
 webpackConfigClient.plugins = [
-  new webpack.HotModuleReplacementPlugin(),
-  new webpack.NoEmitOnErrorsPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
 ];
 
 export default webpackConfigClient;

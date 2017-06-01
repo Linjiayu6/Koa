@@ -30,12 +30,10 @@ const fs = require( 'fs' );
 //   });
 // };
 // creatServer();
-
-
 // const webpackDevServer = require('./webpackDevServer');
 
 
-/* ------------ webpack ------------ */
+/* ------------ webpack params------------ */
 import webpack from 'webpack';
 const webpackMiddleware = require('koa-webpack-middleware');
 const devMiddleware = webpackMiddleware.devMiddleware;
@@ -44,14 +42,13 @@ const hotMiddleware = webpackMiddleware.hotMiddleware;
 import webpackConfigClient from '../build/webpack.config.client';
 const compiler = webpack(webpackConfigClient);
 
+/* ------------ Koa ------------ */
 const Koa = require('koa');
-
 const logger = require('koa-logger');
 const serve = require('koa-static2');
 
 // 路由处理, api处理交给koa-router, 前端交给react-router处理
 const router = require('./router');
-
 
 /* ----------- koa app ------------ */
 export default async() => {
@@ -62,13 +59,14 @@ export default async() => {
   app.use(router);
 
   // 开发环境准备 Apply Webpack HMR Middleware
-  app.use(devMiddleware(compiler, {
-  	noInfo: false,
-  	publicPath: webpackConfigClient.output.publicPath,
-  }));
-  app.use(hotMiddleware(compiler));
-
-  console.log('准备app');
+  if (process.env.NODE_ENV === 'development') {
+    app.use(devMiddleware(compiler, {
+      noInfo: false,
+      publicPath: webpackConfigClient.output.publicPath,
+    }));
+    app.use(hotMiddleware(compiler));
+  }
+  
   return Promise.resolve(app);
 }
 
