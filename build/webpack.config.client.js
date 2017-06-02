@@ -33,9 +33,9 @@ const configPath = {
 
 webpackConfigClient.entry = {
     bundle: [
-        'react-hot-loader/patch',
-        path.resolve(__dirname, '../src/index.js'),
-        `webpack-hot-middleware/client?path=${configPath.compiler_public_path}__webpack_hmr`,
+      'react-hot-loader/patch',
+       path.resolve(__dirname, '../src/index.js'),
+       `webpack-hot-middleware/client?path=${configPath.compiler_public_path}__webpack_hmr`,
     ],
     // http://foio.github.io/wepack-code-spliting/
     // vendor: [
