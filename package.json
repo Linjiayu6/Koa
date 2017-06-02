@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "compile": "babel-node ./build/compiler.js",
-    "start": "npm run clean && babel-node ./setup.js"
+    "start": "babel-node ./setup.js"
   },
   "author": "ljy",
   "license": "MIT",
@@ -39,7 +39,6 @@
     "axios": "^0.16.1",
     "babel-cli": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-polyfill": "^6.23.0",
     "clone": "^2.1.1",
     "debug": "^2.6.8",
     "helmet-webpack-plugin": "0.0.3",

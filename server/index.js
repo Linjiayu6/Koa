@@ -42,6 +42,9 @@ const hotMiddleware = webpackMiddleware.hotMiddleware;
 import webpackConfigClient from '../build/webpack.config.client';
 const compiler = webpack(webpackConfigClient);
 
+import webpackConfigServer from '../build/webpack.config.server';
+// const serverCompiler = webpack(webpackConfigServer);
+
 /* ------------ Koa ------------ */
 const Koa = require('koa');
 const logger = require('koa-logger');
@@ -66,7 +69,10 @@ export default async() => {
     }));
     app.use(hotMiddleware(compiler));
   }
-  
+
+  // let serverlib = await webpackConfigServer();
+  // app.use(serverlib);
+
   return Promise.resolve(app);
 }
 

@@ -42,12 +42,14 @@ module.exports = async (ctx) => {
     // 路径match: 
     match({ history, routes, location: reqUrl }, async (err, redirect, renderProps ) => {
       if (err) {
-        console.log(err);
+        ctx.status = 500;
+        ctx.body = err.message;
         return;
       }
 
       if (redirect) {
         // 跳转
+        // res.redirect(redirect.pathname + redirect.search)
         return;
       }
 
@@ -56,13 +58,12 @@ module.exports = async (ctx) => {
 
         // const AppContainer = ({ location }) => (<div>linjiayu{ JSON.stringify(location)}</div>);
         // let html = renderToString(<AppContainer { ...renderProps} />);
-        // const el = React.createElement(App, { store, ...renderProps });
-        const el = <App {... { store, history }} />
-        const html = renderToString(el);
+        const appHtml = renderToString(<App {... { store, history }} />);
         // let body = <div key="body" dangerouslySetInnerHTML={{ __html: html }}></div>;
+
         ctx.status = 200;
+        ctx.body = renderPage(appHtml);
         // ctx.body = renderHtmlLayout(head, [body, scripts]);
-        ctx.body = `<h1>${html}</h1>`;
         return;
       }
 
@@ -70,3 +71,20 @@ module.exports = async (ctx) => {
       ctx.body = 'Not Found...... 没有match到路径';
     });
   };
+
+function renderPage(appHtml) {
+  return `
+    <!doctype html>
+    <html>
+      <meta charset=utf-8/>
+      <head>
+        <title>server render</title>
+      </head>
+      <body>
+        <div>栗子</div>
+        <div id=app>${appHtml}</div>
+      </body>
+      <script src="./dist/public/bundle.js"></script>
+    </html>
+   `
+}

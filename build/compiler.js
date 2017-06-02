@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import webpackConfigClient from './webpack.config.client.js';
+// import webpackConfigServer from './webpack.config.server.js';
 
 const webpackCompiler = (webpackConfig) => {
   return new Promise((resolve, reject) => {
@@ -24,6 +25,7 @@ const webpackCompiler = (webpackConfig) => {
   });
 };
 
-// export default webpackCompiler;
+export default webpackCompiler;
 
 webpackCompiler(webpackConfigClient);
+// webpackCompiler(webpackConfigServer);

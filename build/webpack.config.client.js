@@ -52,7 +52,8 @@ webpackConfigClient.entry = {
 
 // 输出
 webpackConfigClient.output = {
-    filename: `[name].[hash].js`,
+    // filename: `[name].[hash].js`,
+    filename: 'bundle.js',
     publicPath: '/',
     path: path.resolve(__dirname, '../dist/public'),
 }
