@@ -12,7 +12,14 @@ const loginSuccess = async (ctx, next) => {
   ctx.response.body = `${JSON.stringify(ctx.request.body)}`;
 };
 
+const templateHtml = async (ctx, next) => {
+  return ctx.render('template.html', {
+    title: 'ljy_test',
+  });
+};
+
 module.exports = {
   'GET /login': login,
   'POST /loginsuccess': loginSuccess,
+  'GET /template': templateHtml,
 };
