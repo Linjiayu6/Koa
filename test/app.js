@@ -5,34 +5,42 @@
   await next() // 处理下一个异步的函数
   await用来调用另一个异步的函数
 */
+
+const router = require('koa-router')();
+
+const fs = require('fs');
+// 这里可以用sync是因为启动时只运行一次，不存在性能问题:
+const files = fs.readdirSync(__dirname + '/controller');
+// 处理每个js文件
+for (let f of files) {
+   console.log(`process controller: ${f}...`);
+   // 当前这个问题
+   let mapping = require(__dirname + '/controller/' + f);
+   for (let url in mapping) {
+     // url是从GET开头的
+     if (url.startsWith('GET')) {
+       const path = url.substring(4);
+       router.get(path, mapping[url]);
+       console.log(`register URL mapping: GET ${path}`);
+     } else if (url.startsWith('POST')) {
+       const path = url.substring(5);
+       router.get(path, mapping[url]);
+       console.log(`register URL mapping: Post ${path}`);
+     } else {
+       console.log('无效的url');
+     }
+   }
+}
+
 const Koa = require('Koa');
 const app = new Koa();
 
 const bodyParser = require('koa-bodyparser');
-const router = require('koa-router')();
-// get请求
-router.get('/biztone', async (ctx, next) => {
-  ctx.response.body = '<div>biztone</div>';
-});
-
-router.get('/createpost', async (ctx, next) => {
-  ctx.response.body = `
-    <form action="/post" method="post">
-      <p>Name: <input name="name" value="koa"></p>
-      <p>Password: <input name="password" type="password"></p>
-      <p><input type="submit" value="Submit"></p>
-    </form>
-  `;
-});
 
 /*
   post请求, 如果没有加入body-parser的话~ 是解析不到request的body的功能的
   返回的结果是undefined
 */
-router.post('/post', async (ctx, next) => {
-  ctx.response.body = `${JSON.stringify(ctx.request.body)}`;
-});
-
 const middlewares = require('./middleware');
 
 /* middleware 
