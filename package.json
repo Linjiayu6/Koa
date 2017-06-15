@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "compile": "babel-node ./build/compiler.js",
-    "start": "babel-node ./setup.js"
+    "start": "babel-node ./setup.js",
+    "test": "babel-node ./test/app.js"
   },
   "author": "ljy",
   "license": "MIT",

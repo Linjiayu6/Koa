@@ -11,7 +11,7 @@
 1.1
 */
 
-const authorizeUser = false;
+const authorizeUser = true;
 
 const printReqUrl = async (ctx, next) => {
   console.log('1. 请求地址', ctx.request.url);

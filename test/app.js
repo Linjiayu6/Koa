@@ -8,6 +8,16 @@
 const Koa = require('Koa');
 const app = new Koa();
 
+
+const router = require('koa-router')();
+router.get('/biztone', async (ctx, next) => {
+  ctx.response.body = '<div>biztone</div>';
+});
+
+router.get('/reserve', async (ctx, next) => {
+  ctx.response.body = '<div>reserve</div>';
+});
+
 const middlewares = require('./middleware');
 
 /* middleware 
@@ -18,6 +28,11 @@ const middlewares = require('./middleware');
 */
 
 app.use(middlewares.printReqUrl);
+/*
+  如果只请求http://localhost:3000/biztone, 后端的内容都不会被render
+  log只有 1. 请求地址 /biztone
+*/
+app.use(router.routes());
 app.use(middlewares.printReqTime);
 app.use(middlewares.renderHTML);
 
