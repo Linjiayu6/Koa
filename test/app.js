@@ -8,14 +8,29 @@
 const Koa = require('Koa');
 const app = new Koa();
 
-
+const bodyParser = require('koa-bodyparser');
 const router = require('koa-router')();
+// get请求
 router.get('/biztone', async (ctx, next) => {
   ctx.response.body = '<div>biztone</div>';
 });
 
-router.get('/reserve', async (ctx, next) => {
-  ctx.response.body = '<div>reserve</div>';
+router.get('/createpost', async (ctx, next) => {
+  ctx.response.body = `
+    <form action="/post" method="post">
+      <p>Name: <input name="name" value="koa"></p>
+      <p>Password: <input name="password" type="password"></p>
+      <p><input type="submit" value="Submit"></p>
+    </form>
+  `;
+});
+
+/*
+  post请求, 如果没有加入body-parser的话~ 是解析不到request的body的功能的
+  返回的结果是undefined
+*/
+router.post('/post', async (ctx, next) => {
+  ctx.response.body = `${JSON.stringify(ctx.request.body)}`;
 });
 
 const middlewares = require('./middleware');
@@ -32,7 +47,12 @@ app.use(middlewares.printReqUrl);
   如果只请求http://localhost:3000/biztone, 后端的内容都不会被render
   log只有 1. 请求地址 /biztone
 */
+
+// bodyParser必须放到router之前
+app.use(bodyParser());
+
 app.use(router.routes());
+
 app.use(middlewares.printReqTime);
 app.use(middlewares.renderHTML);
 
