@@ -10,11 +10,20 @@
 2.2 耗时 2
 1.1
 */
+
+const authorizeUser = false;
+
 const printReqUrl = async (ctx, next) => {
   console.log('1. 请求地址', ctx.request.url);
-  // 如果把await 取消掉, 那么后面的异步函数都不能执行
-  await next();
-  console.log('1.1');
+  /*
+    如果把await 取消掉, 那么后面的异步函数都不能执行
+    这种情况可以用到鉴权，如果没有鉴权就可以返回 登录鉴权
+  */
+  if (authorizeUser) {
+    await next();
+  } else {
+    console.log('1.1 没有鉴权 ....');
+  }
 };
 
 const printReqTime = async(ctx, next) => {
