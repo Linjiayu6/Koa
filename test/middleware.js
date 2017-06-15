@@ -9,9 +9,10 @@
 2.1
 2.2 耗时 2
 1.1
- */
+*/
 const printReqUrl = async (ctx, next) => {
   console.log('1. 请求地址', ctx.request.url);
+  // 如果把await 取消掉, 那么后面的异步函数都不能执行
   await next();
   console.log('1.1');
 };
